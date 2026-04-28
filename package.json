@@ -1,0 +1,24 @@
+{
+  "name": "ecommerce-chatbot-promptfoo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HernanRios2019/ecommerce-chatbot-promptfoo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/HernanRios2019/ecommerce-chatbot-promptfoo/issues"
+  },
+  "homepage": "https://github.com/HernanRios2019/ecommerce-chatbot-promptfoo#readme",
+  "dependencies": {
+    "promptfoo": "^0.121.9"
+  }
+}
