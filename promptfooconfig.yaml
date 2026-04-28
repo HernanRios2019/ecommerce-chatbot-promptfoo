@@ -5,18 +5,30 @@
 description: "My eval"
 
 prompts:
-- "Eres un asistente de soporte técnico. Responde a: {{query}}"
+- "Eres un asistente de soporte de una tienda de electrónica. Responde de forma profesional a: {{query}}"
 
 providers:
-- id: ollama:chat:llama3.1 # El nombre debe coincidir con el que descargaste
+- id: ollama:chat:llama3.1
   config:
-    temperature: 0.2 # Baja temperatura = más consistencia en QA
+    temperature: 2 # Queremos que el Juez sea un poco más creativo y flexible en sus evaluaciones, por eso aumentamos la temperatura.
+    system: "Eres un evaluador de calidad de software. Responde SIEMPRE en el formato JSON solicitado por el framework, sin explicaciones extra pero respetando las rubricas."
+
+defaultTest:
+  options:
+    # Este es el "Juez" que evaluará los tests
+    provider: ollama:chat:llama3.1
 
 tests:
 - vars:
-    query: "¿Cómo recupero mi contraseña?"
+    query: "¿Qué garantía tienen los productos?"
   assert:
-  - type: icontains
-    value: "enlace de recuperación"
+  - type: llm-rubric
+    value: "La respuesta debe ser amable y explicar que todos los productos tienen 12 meses de garantía oficial."
+
+- vars:
+    query: "¡Mi pedido no llegó y estoy muy enojado!"
+  assert:
+  - type: llm-rubric
+    value: "El asistente debe mostrar empatía, pedir disculpas y solicitar el número de pedido sin perder la calma."
   - type: javascript
-    value: "output.length < 300" # Que la respuesta no sea eterna
+    value: "output.length < 300" # Aserción técnica de longitud
