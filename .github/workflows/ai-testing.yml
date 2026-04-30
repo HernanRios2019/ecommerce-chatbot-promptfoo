@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/checkout@v4
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -23,7 +23,8 @@ jobs:
         run: npm install
 
       - name: Install and Start Ollama
-        uses: matt-ball/ollama-action@v2
+        # Usamos la versión oficial y actualizada
+        uses: ollama-interface/ollama-action@v1.1.0
         with:
           # Descargamos el modelo automáticamente en el servidor de GitHub
           models: llama3.1
