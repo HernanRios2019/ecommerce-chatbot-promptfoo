@@ -2,7 +2,7 @@ name: AI Automation CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, ci-cd-integration ]
   pull_request:
     branches: [ main ]
 
@@ -23,23 +23,24 @@ jobs:
         run: npm install
 
       - name: Install and Start Ollama
-        # Usamos la versión oficial y actualizada
-        uses: ollama-interface/ollama-action@v1.1.0
-        with:
-          # Descargamos el modelo automáticamente en el servidor de GitHub
-          models: llama3.1
+        run: |
+          # Instalación oficial vía script de Ollama
+          curl -fsSL https://ollama.com/install.sh | sh
+          # Iniciar el servidor en segundo plano
+          ollama serve & 
+          # Esperar a que el servicio esté listo
+          sleep 10
+          # Descargar el modelo
+          ollama pull llama3.1
 
       - name: Run AI Evaluations
-        # Usamos el script que ya configuraste en tu package.json
         run: npm run test:ai
         env:
-          # Forzamos modo CI para que no intente abrir el navegador
           PROMPTFOO_DISABLE_TELEMETRY: 1
-          PROMPTFOO_DISABLE_UPDATE_CHECK: 1
 
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: promptfoo-results
-          path: output/ # Debe coincidir con el flag -o de tu script
+          name: ai-test-report
+          path: output/
