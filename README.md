@@ -42,6 +42,17 @@ The project utilizes a structured YAML configuration to define prompts, provider
 2. Run npm run setup-ai to download the required models.
 3. Run npm run test:ai to execute the suite.
 
+## ⚙️ CI/CD Integration
+This project includes a **GitHub Actions** workflow that:
+1. Spins up a Linux runner.
+2. Installs and initializes an **Ollama** instance.
+3. Pulls the `llama3.1` model dynamically.
+4. Executes the `promptfoo` evaluation suite.
+5. Archives the results as build artifacts.
+
+This ensures that any changes to prompts or business logic are automatically validated against our quality rubrics.
+The report format is HTML to facilitate the results' audibility for non-technical stakeholders.
+
 ![Evaluation Results](./assets/eval-results.png)
 
 ---
