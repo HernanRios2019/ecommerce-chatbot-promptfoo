@@ -1,0 +1,45 @@
+name: AI Automation CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ai-eval:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install and Start Ollama
+        # Usamos la versión oficial y actualizada
+        uses: ollama-interface/ollama-action@v1.1.0
+        with:
+          # Descargamos el modelo automáticamente en el servidor de GitHub
+          models: llama3.1
+
+      - name: Run AI Evaluations
+        # Usamos el script que ya configuraste en tu package.json
+        run: npm run test:ai
+        env:
+          # Forzamos modo CI para que no intente abrir el navegador
+          PROMPTFOO_DISABLE_TELEMETRY: 1
+          PROMPTFOO_DISABLE_UPDATE_CHECK: 1
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: promptfoo-results
+          path: output/ # Debe coincidir con el flag -o de tu script

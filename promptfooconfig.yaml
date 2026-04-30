@@ -10,7 +10,7 @@ prompts:
 providers:
 - id: ollama:chat:llama3.1
   config:
-    temperature: 2 # Queremos que el Juez sea un poco más creativo y flexible en sus evaluaciones, por eso aumentamos la temperatura.
+    temperature: 0 # Queremos que el Juez sea determinista para evaluaciones consistentes
     system: "Eres un evaluador de calidad de software. Responde SIEMPRE en el formato JSON solicitado por el framework, sin explicaciones extra pero respetando las rubricas."
 
 defaultTest:
